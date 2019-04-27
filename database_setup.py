@@ -11,6 +11,19 @@ def read_file():
     header = fString.split('\n')[0].split(',')
     return header
 
+def connect_database(query):
+    try:
+        pg = psycopg2.connect(dbname="airports")
+        c = pg.cursor()
+            # commit the changes
+        c.execute(query)
+        pg.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        pg.close()
+
+
 def create_table():
     header = read_file()
     createAirportTable = '''CREATE TABLE AIRPORTSDATA(
@@ -33,17 +46,23 @@ def create_table():
                              {} text,
                              {} text
                              ) '''.format(*header)
+    connect_database(createAirportTable)
+
+
+def SearchIata(iataCode):
+    q = 'SELECT * FROM AIRPORT where iata_code ILIKE %s'
     try:
         pg = psycopg2.connect(dbname="airports")
-        c = pg.cursor()
-        # commit the changes
-        c.execute(createAirportTable)
-        pg.commit()
-
+        c = pg.cursor(cursor_factory=RealDictCursor)
+        c.execute(q, (iataCode,))
+        result = c.fetchall()
+        return result
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
         pg.close()
+
+    return None
 
 if __name__ == '__main__':
     create_table()

@@ -1,15 +1,21 @@
 from flask import (Flask, render_template, request,
                    redirect, url_for, jsonify, flash)
 
-from database_setup import SearchIata
+from database_setup import SearchIata, SearchName
 
 app = Flask(__name__)
 
-@app.route('/<iataCode>')
+@app.route('/airports/iata/<iataCode>')
 def iataSearch(iataCode):
     # return iataCode
-    x = SearchIata(iataCode)
-    return jsonify(x=[i for i in x])
+    airports = SearchIata(iataCode)
+    return jsonify(airports=[i for i in airports])
+
+@app.route('/airports/name/<name>')
+def nameSearch(name):
+    # return iataCode
+    airports = SearchName(name)
+    return jsonify(airports=[i for i in airports])
 
 
 if __name__ == '__main__':

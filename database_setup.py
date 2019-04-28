@@ -64,5 +64,21 @@ def SearchIata(iataCode):
 
     return None
 
+def SearchName(name):
+
+    q = "SELECT * FROM AIRPORT where position(lower(%s) in lower(name)) > 0"
+    try:
+        pg = psycopg2.connect(dbname="airports")
+        c = pg.cursor(cursor_factory=RealDictCursor)
+        c.execute(q, (name,))
+        result = c.fetchall()
+        return result
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        pg.close()
+
+    return None
+
 if __name__ == '__main__':
     create_table()

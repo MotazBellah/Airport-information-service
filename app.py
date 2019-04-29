@@ -1,20 +1,21 @@
+#!/usr/bin/env python3
 from flask import (Flask, render_template, request,
                    redirect, url_for, jsonify, flash)
 
-from database_setup import SearchIata, SearchName
+from database_setup import searchIata, searchName
 
 app = Flask(__name__)
 
 @app.route('/iata/<iataCode>')
 def iataSearch(iataCode):
-    # return iataCode
-    airports = SearchIata(iataCode)
+    '''search iataCode and return the output in JSON form'''
+    airports = searchIata(iataCode)
     return jsonify(airports=[i for i in airports])
 
 @app.route('/name/<name>')
 def nameSearch(name):
-    # return iataCode
-    airports = SearchName(name)
+    '''search name and return the output in JSON form'''
+    airports = searchName(name)
     return jsonify(airports=[i for i in airports])
 
 

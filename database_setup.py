@@ -50,11 +50,12 @@ def create_table():
 
 
 def SearchIata(iataCode):
-    q = 'SELECT * FROM AIRPORT where iata_code ILIKE %s'
+    # q = 'SELECT * FROM AIRPORT where iata_code ILIKE %s'
+    query = 'SELECT name, iata_code as iata, gps_code, municipality as city, iso_country as country, longitude_deg as longitude, latitude_deg as latitude FROM AIRPORT where iata_code ILIKE %s'
     try:
         pg = psycopg2.connect(dbname="airports")
         c = pg.cursor(cursor_factory=RealDictCursor)
-        c.execute(q, (iataCode,))
+        c.execute(query, (iataCode,))
         result = c.fetchall()
         return result
     except (Exception, psycopg2.DatabaseError) as error:
@@ -65,12 +66,12 @@ def SearchIata(iataCode):
     return None
 
 def SearchName(name):
-
-    q = "SELECT * FROM AIRPORT where position(lower(%s) in lower(name)) > 0"
+    # q = "SELECT * FROM AIRPORT where position(lower(%s) in lower(name)) > 0"
+    query = "SELECT name, iata_code as iata, gps_code, municipality as city, iso_country as country, longitude_deg as longitude, latitude_deg as latitude FROM AIRPORT where position(lower(%s) in lower(name)) > 0"
     try:
         pg = psycopg2.connect(dbname="airports")
         c = pg.cursor(cursor_factory=RealDictCursor)
-        c.execute(q, (name,))
+        c.execute(query, (name,))
         result = c.fetchall()
         return result
     except (Exception, psycopg2.DatabaseError) as error:

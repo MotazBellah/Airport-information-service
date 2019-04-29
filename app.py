@@ -5,13 +5,13 @@ from database_setup import SearchIata, SearchName
 
 app = Flask(__name__)
 
-@app.route('/airports/iata/<iataCode>')
+@app.route('/iata/<iataCode>')
 def iataSearch(iataCode):
     # return iataCode
     airports = SearchIata(iataCode)
     return jsonify(airports=[i for i in airports])
 
-@app.route('/airports/name/<name>')
+@app.route('/name/<name>')
 def nameSearch(name):
     # return iataCode
     airports = SearchName(name)

@@ -3,8 +3,17 @@ from flask import (Flask, render_template, request,
                    redirect, url_for, jsonify, flash, abort)
 
 from database_setup import searchIata, searchName
+import error_handler
 
 app = Flask(__name__)
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template('404.html')
+
+@app.errorhandler(500)
+def not_found(e):
+    return render_template('500.html')
 
 @app.route('/iata/<iataCode>')
 def iataSearch(iataCode):

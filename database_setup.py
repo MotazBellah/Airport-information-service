@@ -51,14 +51,12 @@ def create_table():
     connect_database(createAirportTable) # connect to the database and run the query
 
 
-def searchIata(iataCode):
-    '''Get the itatcode as a string variable and using SQL to search it from AIRPORT table'''
-    # q = 'SELECT * FROM AIRPORT where iata_code ILIKE %s'
-    query = 'SELECT name, iata_code as iata, gps_code, municipality as city, iso_country as country, longitude_deg as longitude, latitude_deg as latitude FROM AIRPORT where iata_code ILIKE %s'
+def get_data(query, target):
+    '''Connect to the database and fetch the data '''
     try:
         pg = psycopg2.connect(dbname="airports")
         c = pg.cursor(cursor_factory=RealDictCursor) # use the advantage of real dictionary cursor to get a query output as json
-        c.execute(query, (iataCode,)) # Add the last comma to avoid the SQL injection
+        c.execute(query, (target,)) # Add the last comma to avoid the SQL injection
         result = c.fetchall()
         return result
     except (Exception, psycopg2.DatabaseError) as error:
@@ -67,23 +65,20 @@ def searchIata(iataCode):
         pg.close()
 
     return None
+
+
+def searchIata(iataCode):
+    '''Get the itatcode as a string variable and using SQL to search it from AIRPORT table'''
+    # q = 'SELECT * FROM AIRPORT where iata_code ILIKE %s'
+    query = 'SELECT name, iata_code as iata, gps_code, municipality as city, iso_country as country, longitude_deg as longitude, latitude_deg as latitude FROM AIRPORT where iata_code ILIKE %s'
+    return get_data(query, iataCode)
 
 def searchName(name):
     '''Get the name as a string variable and using SQL to search it from AIRPORT table'''
     # q = "SELECT * FROM AIRPORT where position(lower(%s) in lower(name)) > 0"
     query = "SELECT name, iata_code as iata, gps_code, municipality as city, iso_country as country, longitude_deg as longitude, latitude_deg as latitude FROM AIRPORT where position(lower(%s) in lower(name)) > 0"
-    try:
-        pg = psycopg2.connect(dbname="airports")
-        c = pg.cursor(cursor_factory=RealDictCursor)
-        c.execute(query, (name,))
-        result = c.fetchall()
-        return result
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    finally:
-        pg.close()
+    return get_data(query, name)
 
-    return None
 
 if __name__ == '__main__':
     create_table()

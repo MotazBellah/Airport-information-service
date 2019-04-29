@@ -1,19 +1,23 @@
 #!/usr/bin/env python3
-from flask import (Flask, render_template, request,
-                   redirect, url_for, jsonify, flash, abort)
-
+from flask import Flask, render_template, jsonify, abort
 from database_setup import searchIata, searchName
 import error_handler
 
 app = Flask(__name__)
 
+
+# Use errorhandler in flask to render custom HTML in case of error
 @app.errorhandler(404)
 def not_found(e):
+    '''Return custom HTML page if page not founs '''
     return render_template('404.html')
+
 
 @app.errorhandler(500)
 def not_found(e):
+    '''Return custom HTML page if server has error '''
     return render_template('500.html')
+
 
 @app.route('/iata/<iataCode>')
 def iataSearch(iataCode):
@@ -34,6 +38,5 @@ def nameSearch(name):
 
 
 if __name__ == '__main__':
-    app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=8000)

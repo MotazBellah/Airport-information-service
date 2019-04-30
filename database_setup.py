@@ -19,8 +19,10 @@ def connect_database(query):
         c = pg.cursor()
         c.execute(query)
         pg.commit()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+    except psycopg2.Error as e:
+        print("Unable to connect!")
+        # print the error message
+        print(e.pgerror)
     finally:
         pg.close()
 
@@ -65,8 +67,10 @@ def get_data(query, target):
         c.execute(query, (target,))
         result = c.fetchall()
         return result
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+    except psycopg2.Error as e:
+        print("Unable to connect!")
+        # print the error message
+        print(e.pgerror)
     finally:
         pg.close()
 

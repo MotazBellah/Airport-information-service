@@ -25,7 +25,7 @@ def not_found(e):
                           when we fixed that problem.'''), 500
 
 
-@app.route('/iata/<iataCode>')
+@app.route('/iata/<iataCode>/JSON')
 def iataSearch(iataCode):
     '''search iataCode and return the output in JSON form'''
     airports = searchIata(iataCode)
@@ -34,7 +34,7 @@ def iataSearch(iataCode):
     return jsonify(airports=[i for i in airports])
 
 
-@app.route('/name/<name>')
+@app.route('/name/<name>/JSON')
 def nameSearch(name):
     '''search name and return the output in JSON form'''
     airports = searchName(name)

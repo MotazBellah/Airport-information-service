@@ -1,2 +1,7 @@
-# Airport-information-service
-l web service that provides information about airports. You will have to construct the database by yourself and the service should allow to query for airports by IATA code as well as by text. The design of the endpoints is up to your decision but both have to return JSON data
+## Airport-information-service
+
+web service that provides information about airports based on http://ourairports.com/data/
+
+## Code style:
+
+This project is written in python 2 and follow PEP-8 Guidelines.

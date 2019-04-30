@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from flask import Flask, render_template, jsonify, abort
 from database_setup import searchIata, searchName
-import error_handler
 
 app = Flask(__name__)
 

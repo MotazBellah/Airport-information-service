@@ -23,7 +23,7 @@ def connect_database(query):
         print("Unable to connect!")
         # print the error message
         print(e.pgerror)
-    finally:
+    else:
         pg.close()
 
 
@@ -71,7 +71,7 @@ def get_data(query, target):
         print("Unable to connect!")
         # print the error message
         print(e.pgerror)
-    finally:
+    else:
         pg.close()
 
     return None

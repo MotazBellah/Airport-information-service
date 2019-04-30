@@ -4,7 +4,7 @@ web service that provides information about airports based on http://ourairports
 
 ## Code style
 
-This project is written in python 2 and follow PEP-8 Guidelines.
+This project is written in python 3 and follow PEP-8 Guidelines.
 
 ## Database Installation
 

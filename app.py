@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from flask import Flask, render_template, jsonify, abort
+from flask import Flask, render_template, jsonify, abort, make_response
 from database_setup import searchIata, searchName
 
 app = Flask(__name__)
@@ -8,14 +8,21 @@ app = Flask(__name__)
 # Use errorhandler in flask to render custom HTML in case of error
 @app.errorhandler(404)
 def not_found(e):
-    '''Return custom HTML page if page not founs '''
-    return render_template('404.html')
+    '''Return custom JSON if page not founs '''
+    return jsonify(code=e.code, message=str(e),
+                   reason='Page Not Found, or Server Not Found',
+                   action='Please check the URL'), 404
 
 
 @app.errorhandler(500)
 def not_found(e):
     '''Return custom HTML page if server has error '''
-    return render_template('500.html')
+    return jsonify(code=e.code, message=str(e),
+                   reason='''The server encountered an unexpected condition
+                          which prevented it from fulfilling the request,
+                          or the server is overloaded''',
+                   action='''Please come back later
+                          when we fixed that problem.'''), 500
 
 
 @app.route('/iata/<iataCode>')

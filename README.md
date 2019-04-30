@@ -4,7 +4,9 @@ web service that provides information about airports based on http://ourairports
 
 ## Code style
 
-This project is written in python 3 and follow PEP-8 Guidelines.
+- This project is written in python 3 and follow PEP-8 Guidelines.
+- Use Flask framework.
+- Use psycopg2 as python DB-API, to hock the python code to postgreSQL DB.
 
 ## Database Installation
 

@@ -16,7 +16,7 @@ def not_found(e):
 
 @app.errorhandler(500)
 def not_found(e):
-    '''Return custom HTML page if server has error '''
+    '''Return custom JSON  if server has error '''
     return jsonify(code=e.code, message=str(e),
                    reason='''The server encountered an unexpected condition
                           which prevented it from fulfilling the request,
